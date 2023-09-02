@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import './App.css';
 import axios from 'axios'
 import Table from "@material-ui/core/Table";
@@ -28,24 +28,53 @@ function App() {
   const [previous, setPrevious] = useState({});
 
 
-
+  //useEffect get employeedetail call always show in front
+  useEffect(()=>{
+    getEmployees()
+  },[])
 
   //add employee to database
   const addEmployee = ()=>{
-    axios.post('http://localhost:3005/create',{
+    axios.post('http://localhost:3001/create',{
       name:name,
       age:age,
       country:country,
       position:position,
       salary:salary
-    }).then(()=>console.log('success'))
+    }).then(()=>{
+      setEmployeeList([
+        ...employeeList,{
+          name:name,
+          age:age,
+          country:country,
+          position:position,
+          salary:salary
+        }
+      ])
+    })
   }
 
+  //add employees from database
   const getEmployees =()=>{
-    axios.get("http://localhost:3005/employees").then((response)=>{
+    axios.get("http://localhost:3001/employees").then((response)=>{
       setEmployeeList(response.data)
     })
   }
+
+  //update employee to database
+  const updateEmployee = ({id,name,age,country,position,salary})=>{
+    axios.put("http://localhost:3001/update",{
+      id:id,
+      name:name,
+      age:age,
+      country:country,
+      position:position,
+      salary:salary
+    }).then((response)=>{
+      console.log('update success')
+    })
+  }
+
 
     //onChange //prvious data store
     const onChange = (e, row) => {
@@ -84,6 +113,19 @@ function App() {
     );
   };
 
+  //toggle done edit done
+  const onToggleDone = id =>{
+    setEmployeeList(()=>{
+      return employeeList.map(row =>{
+        if(row.id ===id ){
+          updateEmployee(row)
+          return {...row,isEditMode: !row.isEditMode}
+        }
+        return row
+      })
+    })
+  }
+
   //edit toggle is editmode
   const onToggleEditMode = (id) => {
     const newemployeeList = employeeList.map((row) => {
@@ -111,9 +153,10 @@ function App() {
         return state;
     })
   };
-
+//data entry code below
   return (
     <>
+    
      <div className="information">
       <form onSubmit={addEmployee}>
         <label>Name</label>
@@ -130,10 +173,12 @@ function App() {
       </form>
       </div>
 
+ {/* table code use material ui package  */}
       <div className='employees'>
         <button onClick={getEmployees}>Show Employee</button>
         <Paper className="root">
         <Table className="table" aria-label="caption table">
+          <caption>Lets add data</caption>
           <TableHead>
             <TableRow>
               <TableCell align="left" />
@@ -160,7 +205,7 @@ function App() {
                       </IconButton>
                       <IconButton
                         aria-label="done"
-                        /* onClick={() => onToggleDone(row.id)} */
+                        onClick={() => onToggleDone(row.id)}
                       >
                         <DoneIcon />
                       </IconButton>
@@ -176,7 +221,7 @@ function App() {
                         </IconButton>
                         <IconButton
                           aria-label="delete"
-                          /* onClick={() => onToggleDone(row.id)} */
+                          onClick={() => onToggleDone(row.id)}
                         >
                           <DeleteIcon />
                         </IconButton>
