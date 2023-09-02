@@ -4,12 +4,16 @@ import axios from 'axios'
 
 
 function App() {
+  //state
   const [name,setName] =useState()
   const [age,setAge] =useState(0)
   const [country,setCountry] =useState()
   const [position,setPosition] =useState()
   const [salary,setSalary] =useState(0)
+  //employee data store in state
+  const [employeeList,setEmployeeList] = useState([])
 
+  //add employee to database
   const addEmployee = ()=>{
     axios.post('http://localhost:3001/create',{
       name:name,
@@ -20,6 +24,11 @@ function App() {
     }).then(()=>console.log('success'))
   }
 
+  const getEmployee =()=>{
+    axios.get("http://localhost:3001/employees").then((response)=>{
+      setEmployeeList(response.data)
+    })
+  }
   
   return (
     <>
@@ -37,6 +46,13 @@ function App() {
         <input type="text" name="salary" onChange={(e)=>setSalary(e.target.value)} />
         <button type="submit">Add Employee</button>
       </form>
+      </div>
+
+      <div className='employees'>
+        <button onClick={getEmployee}>Show Employee</button>
+        {employeeList.map(emp =>{
+          return <p>{emp.name}</p>
+        })}
       </div>
     </>
    
