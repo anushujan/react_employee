@@ -1,5 +1,7 @@
 import './App.css';
 import React,{useState} from 'react'
+import axios from 'axios'
+
 
 function App() {
   const [name,setName] =useState()
@@ -7,10 +9,22 @@ function App() {
   const [country,setCountry] =useState()
   const [position,setPosition] =useState()
   const [salary,setSalary] =useState(0)
+
+  const addEmployee = ()=>{
+    axios.post('http://localhost:3001/create',{
+      name:name,
+      age:age,
+      country:country,
+      position:position,
+      salary:salary
+    }).then(()=>console.log('success'))
+  }
+
+  
   return (
     <>
      <div className="information">
-      <form onSubmit={console.log(name)}>
+      <form onSubmit={addEmployee}>
         <label>Name</label>
         <input type="text" name="name" onChange={(e)=>setName(e.target.value)} />
         <label>Age</label>
