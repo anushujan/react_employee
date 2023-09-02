@@ -1,19 +1,17 @@
-.information{
+.information {
   display: flex;
-  width:100%;
+  width: 100%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  
 }
-.information form{
+.information form {
   display: flex;
   flex-direction: column;
   text-align: center;
   gap: 5px;
-  
 }
-.employees{
+.employees {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,6 +19,26 @@
   width: 100%;
   margin-top: 1rem;
 }
-.employees button{
+.employees button {
   width: 29%;
+}
+
+.root {
+  min-width: 80%;
+  margin-top: 50px;
+  overflow-x: auto;
+}
+.table {
+  min-height: 100px;
+}
+.selectedTableCell {
+  width: 60px;
+}
+.tableCell {
+  width: 130px;
+  height: 40px;
+}
+.input {
+  width: 130px;
+  height: 40px;
 }
