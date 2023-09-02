@@ -121,7 +121,7 @@ function App() {
             key={`input-field${row[name] + row.id}`}
             value={row[name]}
             name={name}
-            onChange={(e) => onChange(e.row)}
+            onChange={(e) => onChange(e,row)}
             className="input"
           />
         ) : (
@@ -132,7 +132,7 @@ function App() {
   };
 
   //toggle done edit done
-  const onToggleDone = (id) => {
+  const onToggleDone = id => {
     setEmployeeList(() => {
       return employeeList.map((row) => {
         if (row.id === id) {
@@ -145,10 +145,10 @@ function App() {
   };
 
   //edit toggle is editmode
-  const onToggleEditMode = (id) => {
-    const newemployeeList = employeeList.map((row) => {
+  const onToggleEditMode = id => {
+    const newemployeeList = employeeList.map(row => {
       if (row.id === id) {
-        return { ...row, isEditMode: !row.isEditMode };
+        return {...row, isEditMode: !row.isEditMode };
       }
       return row;
     });
@@ -156,7 +156,7 @@ function App() {
   };
 
   //revert toggle is editmode
-  const onRevert = (id) => {
+  const onRevert = id => {
     const newemployeeList = employeeList.map((row) => {
       if (row.id === id) {
         return previous[id]
@@ -228,7 +228,7 @@ function App() {
             </TableHead>
 
             <TableBody>
-              {employeeList.map((row) => (
+              {employeeList.map(row => (
                 <TableRow key={row.id}>
                   <TableCell className="selecteTableCell">
                     {row.isEditMode ? (
