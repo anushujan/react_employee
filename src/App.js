@@ -1,6 +1,8 @@
 import './App.css';
 import React,{useState} from 'react'
 import axios from 'axios'
+import EmployeeList from './components/EmployeeList';
+
 
 
 function App() {
@@ -50,9 +52,8 @@ function App() {
 
       <div className='employees'>
         <button onClick={getEmployee}>Show Employee</button>
-        {employeeList.map(emp =>{
-          return <p>{emp.name}</p>
-        })}
+        <EmployeeList employeeList={employeeList}
+        setEmployeeList={setEmployeeList}/>
       </div>
     </>
    
