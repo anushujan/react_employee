@@ -94,7 +94,8 @@ function App() {
     });
   };
 
-  //onChange //prvious data store
+  //onChange //previous data store only state update not database add 
+  //that databse add work in onToggleDone funtion
   const onChange = (e, row) => {
     if (!previous[row.id]) {
       setPrevious((state) => ({ ...state, [row.id]: row }));
@@ -121,7 +122,7 @@ function App() {
             key={`input-field${row[name] + row.id}`}
             value={row[name]}
             name={name}
-            onChange={(e) => onChange(e,row)}
+            onChange={(e) => onChange(e, row)}
             className="input"
           />
         ) : (
@@ -132,7 +133,8 @@ function App() {
   };
 
   //toggle done edit done
-  const onToggleDone = id => {
+  //here is add to the database edited data
+  const onToggleDone = (id) => {
     setEmployeeList(() => {
       return employeeList.map((row) => {
         if (row.id === id) {
@@ -145,18 +147,19 @@ function App() {
   };
 
   //edit toggle is editmode
-  const onToggleEditMode = id => {
-    const newemployeeList = employeeList.map(row => {
+  const onToggleEditMode = (id) => {
+    const newemployeeList = employeeList.map((row) => {
       if (row.id === id) {
-        return {...row, isEditMode: !row.isEditMode };
+        return { ...row, isEditMode: !row.isEditMode };
       }
       return row;
     });
     setEmployeeList(newemployeeList);
   };
 
-  //revert toggle is editmode
-  const onRevert = id => {
+  //revert toggle is editmode 
+  // in onrevert fuction previos state shoe whatever we edit not intrupt
+  const onRevert = (id) => {
     const newemployeeList = employeeList.map((row) => {
       if (row.id === id) {
         return previous[id]
@@ -228,7 +231,7 @@ function App() {
             </TableHead>
 
             <TableBody>
-              {employeeList.map(row => (
+              {employeeList.map((row) => (
                 <TableRow key={row.id}>
                   <TableCell className="selecteTableCell">
                     {row.isEditMode ? (
@@ -264,7 +267,7 @@ function App() {
                     )}
                   </TableCell>
 
-                  <CustomTableCell {...{ row, name: "name", onChange}} />
+                  <CustomTableCell {...{ row, name: "name", onChange }} />
                   <CustomTableCell {...{ row, name: "age", onChange }} />
                   <CustomTableCell {...{ row, name: "country", onChange }} />
                   <CustomTableCell {...{ row, name: "position", onChange }} />
